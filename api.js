@@ -7,7 +7,7 @@ const port = 3000;
 
 // URL MongoDB et base de données
 const mongoUrl = 'mongodb://localhost:27017'; 
-const dbName = 'td5';
+const dbName = 'tp2';
 
 app.use(express.json());
 
@@ -50,8 +50,8 @@ app.get('/customer/:CustomerID', async (req, res) => {
     }
 });
 
-// Route pour afficher tout les orders
-app.get('/orders', async (req, res) => {
+// Route pour afficher tout les clients
+app.get('/customers', async (req, res) => {
     
     let client;
     try {
@@ -60,15 +60,15 @@ app.get('/orders', async (req, res) => {
         console.log('Connected to MongoDB');
 
         const db = client.db(dbName);
-        const collection = db.collection('orders');
+        const collection = db.collection('customers');
 
         // Recherche dans MongoDB
-        const orders = await collection.find({}).toArray();
+        const customers = await collection.find({}).toArray();
 
-        if (orders) {
-            res.json(orders);
+        if (customers) {
+            res.json(customers);
         } else {
-            res.status(404).json({ error: 'no orders here' });
+            res.status(404).json({ error: 'no customers here' });
         }
         
     } catch (err) {
@@ -80,6 +80,7 @@ app.get('/orders', async (req, res) => {
         }
     }
 });
+
 
 // ############ Produits ############
 
