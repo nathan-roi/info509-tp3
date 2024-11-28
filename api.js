@@ -82,6 +82,38 @@ app.get('/customer/:CustomerID', async (req, res) => {
 });
 
 
+// Route pour afficher tout les produits
+app.get('/products', async (req, res) => {
+    
+    let client;
+    try {
+        client = new MongoClient(mongoUrl);
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const db = client.db(dbName);
+        const collection = db.collection('products');
+
+        // Recherche dans MongoDB
+        const products = await collection.find({}).toArray();
+
+        if (products) {
+            res.json(products);
+        } else {
+            res.status(404).json({ error: 'no products here' });
+        }
+        
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+        if (client) {
+            await client.close();
+        }
+    }
+});
+
+
 // Route pour rechercher les commandes d'un utilisateur
 app.get('/customer_order/:CustomerID', async (req, res) => {
     const CustomerID = req.params.CustomerID; 
@@ -96,9 +128,9 @@ app.get('/customer_order/:CustomerID', async (req, res) => {
         console.log('Connected to MongoDB');
 
         const db = client.db(dbName);
-
         const orderCollection = db.collection('orders');
 
+        // Recherche dans MongoDB
         const pipeline = [];
         pipeline.push({$match: { 'CustomerID': CustomerID}});
 
