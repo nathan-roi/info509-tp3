@@ -14,11 +14,13 @@ app.use(express.json());
 
 ////API
 
-// Route pour rechercher un produit par ID
-app.get('/product/:productID', async (req, res) => {
-    const productID = parseInt(req.params.productID, 10); 
-    if (isNaN(productID)) {
-        return res.status(400).json({ error: 'Invalid productID. Must be an integer.' });
+// ############ Produits ############
+
+// Route pour rechercher un utilisateur par ID
+app.get('/customer/:CustomerID', async (req, res) => {
+    const CustomerID = req.params.CustomerID; 
+    if (typeof CustomerID !== 'string') {
+        return res.status(400).json({ error: 'Invalid costumerID. Must be a string' });
     }
 
     let client;
@@ -28,14 +30,14 @@ app.get('/product/:productID', async (req, res) => {
         console.log('Connected to MongoDB');
 
         const db = client.db(dbName);
-        const collection = db.collection('products');
+        const collection = db.collection('customers');
 
         // Recherche dans MongoDB
-        const product = await collection.findOne({ productID }); 
-        if (product) {
-            res.json(product);
+        const customer = await collection.findOne({ CustomerID }); 
+        if (customer) {
+            res.json(customer);
         } else {
-            res.status(404).json({ error: 'Product not found' });
+            res.status(404).json({ error: 'customer not found' });
         }
     } catch (err) {
         console.error('Error:', err);
@@ -78,12 +80,11 @@ app.get('/products', async (req, res) => {
     }
 });
 
-
-// Route pour rechercher un utilisateur par ID
-app.get('/customer/:CustomerID', async (req, res) => {
-    const CustomerID = req.params.CustomerID; 
-    if (typeof CustomerID !== 'string') {
-        return res.status(400).json({ error: 'Invalid costumerID. Must be a string' });
+// Route pour rechercher un produit par ID
+app.get('/product/:productID', async (req, res) => {
+    const productID = parseInt(req.params.productID, 10); 
+    if (isNaN(productID)) {
+        return res.status(400).json({ error: 'Invalid productID. Must be an integer.' });
     }
 
     let client;
@@ -93,14 +94,14 @@ app.get('/customer/:CustomerID', async (req, res) => {
         console.log('Connected to MongoDB');
 
         const db = client.db(dbName);
-        const collection = db.collection('customers');
+        const collection = db.collection('products');
 
         // Recherche dans MongoDB
-        const customer = await collection.findOne({ CustomerID }); 
-        if (customer) {
-            res.json(customer);
+        const product = await collection.findOne({ productID }); 
+        if (product) {
+            res.json(product);
         } else {
-            res.status(404).json({ error: 'customer not found' });
+            res.status(404).json({ error: 'Product not found' });
         }
     } catch (err) {
         console.error('Error:', err);
@@ -114,6 +115,46 @@ app.get('/customer/:CustomerID', async (req, res) => {
 
 
 
+
+
+
+
+
+
+// ############ Commandes ############
+
+// Route pour rechercher une commande par ID
+app.get('/order/:OrderID', async (req, res) => {
+
+    const orderID = parseInt(req.params.OrderID, 10);
+    if (isNaN(orderID)) {
+        return res.status(400).json({ error: 'Invalid orderID. Must be an integer.' });
+    }
+
+    let client;
+    try {
+        client = new MongoClient(mongoUrl);
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const db = client.db(dbName);
+        const collection = db.collection('orders');
+
+        const order = await collection.findOne({ OrderID: orderID });
+        if (order) {
+            res.json(order);
+        } else {
+            res.status(404).json({ error: 'Order not found' });
+        }
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+        if (client) {
+            await client.close();
+        }
+    }
+});
 
 // Route pour afficher toutes les commandes
 app.get('/orders', async (req, res) => {
@@ -146,7 +187,6 @@ app.get('/orders', async (req, res) => {
     }
 });
 
-
 // Route pour rechercher les commandes d'un utilisateur
 app.get('/customer_order/:CustomerID', async (req, res) => {
     const CustomerID = req.params.CustomerID; 
@@ -177,6 +217,108 @@ app.get('/customer_order/:CustomerID', async (req, res) => {
         
     } catch (err) {
         console.error('Error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+        if (client) {
+            await client.close();
+        }
+    }
+});
+
+
+
+// ############ Fournisseurs ############
+
+// Route pour rechercher un fournisseur par ID
+app.get('/supplier/:SupplierID', async (req, res) => {
+
+    const supplierID = parseInt(req.params.SupplierID, 10);
+    if (isNaN(supplierID)) {
+        return res.status(400).json({ error: 'Invalid supplierID. Must be an integer.' });
+    }
+
+    let client;
+    try {
+        client = new MongoClient(mongoUrl);
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const db = client.db(dbName);
+        const collection = db.collection('suppliers');
+
+        const supplier = await collection.findOne({ SupplierID: supplierID });
+        if (supplier) {
+            res.json(supplier);
+        } else {
+            res.status(404).json({ error: 'Supplier not found' });
+        }
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+        if (client) {
+            await client.close();
+        }
+    }
+});
+
+// Route pour obtenir tous les fournisseurs
+app.get('/suppliers', async (req, res) => {
+    let client;
+    try {
+        client = new MongoClient(mongoUrl);
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const db = client.db(dbName);
+        const collection = db.collection('suppliers');
+
+        const suppliers = await collection.find({}).toArray();
+        if (suppliers) {
+            res.json(suppliers);
+        } else {
+            res.status(404).json({ error: 'No supplier here' });
+        }
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+        if (client) {
+            await client.close();
+        }
+    }
+});
+
+// Route pour rechercher les produits d'un fournisseur
+app.get('/supplier_product/:SupplierID', async (req, res) => {
+    const supplierID = parseInt(req.params.SupplierID, 10);
+    console.log("Received SupplierID:", supplierID); // Log la valeur reçue
+
+    if (isNaN(supplierID)) {
+        console.log("Invalid SupplierID"); // Ajoutez ce log
+        return res.status(400).json({ error: 'Invalid supplierID. Must be an integer.' });
+    }
+
+    let client;
+    try {
+        client = new MongoClient(mongoUrl);
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const db = client.db(dbName);
+        const Collection = db.collection('products');
+
+        const pipeline = [];
+        pipeline.push({ $match: { supplierID: supplierID } });
+
+        const aggregationResult = await Collection.aggregate(pipeline).toArray();
+
+        if (aggregationResult.length > 0) {
+            res.json(aggregationResult);
+        } else {
+            res.status(404).json({ error: 'Products not found for the given supplierID' });
+        }
+    } catch (err) {
         res.status(500).json({ error: 'Internal Server Error' });
     } finally {
         if (client) {
