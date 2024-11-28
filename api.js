@@ -80,6 +80,33 @@ app.get('/supplier/:SupplierID', async (req, res) => {
     }
 });
 
+// Route pour obtenir tous les fournisseurs
+app.get('/suppliers', async (req, res) => {
+    let client;
+    try {
+        client = new MongoClient(mongoUrl);
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const db = client.db(dbName);
+        const collection = db.collection('suppliers');
+
+        const suppliers = await collection.find({}).toArray();
+        if (suppliers) {
+            res.json(suppliers);
+        } else {
+            res.status(404).json({ error: 'No supplier here' });
+        }
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+        if (client) {
+            await client.close();
+        }
+    }
+});
+
 // Route pour rechercher une commande par ID
 app.get('/order/:OrderID', async (req, res) => {
 
