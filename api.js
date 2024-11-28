@@ -7,14 +7,15 @@ const port = 3000;
 
 // URL MongoDB et base de données
 const mongoUrl = 'mongodb://localhost:27017'; 
-const dbName = 'tp2';
+const dbName = 'td5';
 
 app.use(express.json());
 
+const path = require('path');
 
 ////API
 
-// ############ Produits ############
+// ############ Clients ############
 
 // Route pour rechercher un utilisateur par ID
 app.get('/customer/:CustomerID', async (req, res) => {
@@ -48,6 +49,39 @@ app.get('/customer/:CustomerID', async (req, res) => {
         }
     }
 });
+
+// Route pour afficher tout les orders
+app.get('/orders', async (req, res) => {
+    
+    let client;
+    try {
+        client = new MongoClient(mongoUrl);
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const db = client.db(dbName);
+        const collection = db.collection('orders');
+
+        // Recherche dans MongoDB
+        const orders = await collection.find({}).toArray();
+
+        if (orders) {
+            res.json(orders);
+        } else {
+            res.status(404).json({ error: 'no orders here' });
+        }
+        
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+        if (client) {
+            await client.close();
+        }
+    }
+});
+
+// ############ Produits ############
 
 // Route pour afficher tout les produits
 app.get('/products', async (req, res) => {
@@ -112,14 +146,6 @@ app.get('/product/:productID', async (req, res) => {
         }
     }
 });
-
-
-
-
-
-
-
-
 
 // ############ Commandes ############
 
@@ -187,7 +213,7 @@ app.get('/orders', async (req, res) => {
     }
 });
 
-// Route pour rechercher les commandes d'un utilisateur
+// Route pour rechercher les commandes d'un client
 app.get('/customer_order/:CustomerID', async (req, res) => {
     const CustomerID = req.params.CustomerID; 
     if (typeof CustomerID !== 'string') {
@@ -224,8 +250,6 @@ app.get('/customer_order/:CustomerID', async (req, res) => {
         }
     }
 });
-
-
 
 // ############ Fournisseurs ############
 
@@ -327,6 +351,7 @@ app.get('/supplier_product/:SupplierID', async (req, res) => {
     }
 });
 
+// ############ SERVEUR ############
 
 // Lancement du serveur
 app.listen(port, () => {
