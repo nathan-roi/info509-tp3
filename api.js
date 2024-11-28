@@ -80,6 +80,34 @@ app.get('/supplier/:SupplierID', async (req, res) => {
     }
 });
 
+// Route pour obtenir tous les fournisseurs
+app.get('/suppliers', async (req, res) => {
+    let client;
+    try {
+        client = new MongoClient(mongoUrl);
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const db = client.db(dbName);
+        const collection = db.collection('suppliers');
+
+        const suppliers = await collection.find({}).toArray();
+        if (suppliers) {
+            res.json(suppliers);
+        } else {
+            res.status(404).json({ error: 'No supplier here' });
+        }
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+        if (client) {
+            await client.close();
+        }
+    }
+});
+
+// Route pour rechercher une commande par ID
 app.get('/order/:OrderID', async (req, res) => {
 
     const orderID = parseInt(req.params.OrderID, 10);
@@ -111,6 +139,46 @@ app.get('/order/:OrderID', async (req, res) => {
         }
     }
 });
+
+// Route pour rechercher les produits d'un fournisseur
+app.get('/supplier_product/:SupplierID', async (req, res) => {
+    const supplierID = parseInt(req.params.SupplierID, 10);
+    console.log("Received SupplierID:", supplierID); // Log la valeur reçue
+
+    if (isNaN(supplierID)) {
+        console.log("Invalid SupplierID"); // Ajoutez ce log
+        return res.status(400).json({ error: 'Invalid supplierID. Must be an integer.' });
+    }
+
+    let client;
+    try {
+        client = new MongoClient(mongoUrl);
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const db = client.db(dbName);
+        const Collection = db.collection('products');
+
+        const pipeline = [];
+        pipeline.push({ $match: { supplierID: supplierID } });
+
+        const aggregationResult = await Collection.aggregate(pipeline).toArray();
+
+        if (aggregationResult.length > 0) {
+            res.json(aggregationResult);
+        } else {
+            res.status(404).json({ error: 'Products not found for the given supplierID' });
+        }
+    } catch (err) {
+        res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+        if (client) {
+            await client.close();
+        }
+    }
+});
+
+
 
 // Lancement du serveur
 app.listen(port, () => {
