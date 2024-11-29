@@ -3,15 +3,24 @@ const express = require('express');
 const { MongoClient } = require('mongodb');
 
 const app = express();
-const port = 3000; 
+const port = 3000;
+
+// Importation de la librairie path
+const path = require('path');
+
+// WWW
+app.use(express.static(path.join(__dirname, 'www')));
+
+// Route par défaut pour renvoyer index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'www', 'index.html'));
+});
 
 // URL MongoDB et base de données
 const mongoUrl = 'mongodb://localhost:27017'; 
 const dbName = 'tp2';
 
 app.use(express.json());
-
-const path = require('path');
 
 ////API
 
