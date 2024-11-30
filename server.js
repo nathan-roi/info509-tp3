@@ -20,7 +20,7 @@ const handle = nextApp.getRequestHandler();
 
 // URL MongoDB et base de données
 const mongoUrl = 'mongodb://localhost:27017'; 
-const dbName = 'tp2';
+const dbName = 'td5';
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

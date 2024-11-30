@@ -6,7 +6,7 @@ export default function DisplayData ({ product }) {
     const [showProduct, setShowProduct] = useState(false); 
   return (
     <>
-        <button onClick={() => {setShowProduct(!showProduct)}}>Fetch Product 11</button>
+        <button onClick={() => {setShowProduct(!showProduct)}}>Fetch Product {product.productID}</button>
 
         <div>{showProduct &&
             <>
