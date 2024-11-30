@@ -1,16 +1,37 @@
 // Données chargées côté serveur puis afficher côté client
 import styles from "./page.module.css";
 import DisplayData from "./displayData.js";
+import AllProducts from "./allProducts";
+import AllOrders from "./allOrders"; 
+import AllSuppliers from "./allSuppliers";
 
 export default async function Home() {
-  let response = await fetch('http://localhost:3000/product/11');
-  let product = await response.json();
-  
+  {/* <img width="250px" src="node-mongo.png"> */}
+  // Fetch d'un produit spécifique
+  const response = await fetch("http://localhost:3000/product/11");
+  const product = await response.json();
+
+  // Fetch de tous les produits
+  const resProducts = await fetch("http://localhost:3000/products");
+  const products = await resProducts.json();
+
+  // Fetch de tous les commandes
+  const resOrders = await fetch("http://localhost:3000/orders");
+  const orders = await resOrders.json();
+
+  // Fetch de tous les fournisseurs
+  const resSuppliers = await fetch("http://localhost:3000/suppliers");
+  const suppliers = await resSuppliers.json();
+
   return (
     <div className={styles.page}>
-      {/* <img width="250px" src="node-mongo.png"> */}
       <h1>Product</h1>
       <DisplayData product={product} />
+
+      <AllProducts products={products} />
+      <AllOrders orders={orders} />
+      <AllSuppliers suppliers={suppliers} />
+
     </div>
   );
 }
