@@ -1,18 +1,34 @@
 "use client";
 import { useState } from 'react';
 
-import "./SearchInput";
 import SearchInput from "@/app/SearchInput";
+import SelectCategory from "@/app/SelectCategory";
 
 export default function AllOrder({ orders }) {
-  const [searchText, setSearchText] = useState('');
+  const listOfSearchable = ["Client", "Ville", "Pays"];
 
-  const result = orders.filter((order) => order.CustomerID.toLowerCase().includes(searchText.toLowerCase()));
+  const [searchText, setSearchText] = useState('');
+  const [searchCategory, setSearchCategory] = useState(listOfSearchable[0]);
+
+  function fileterOrders(orders, searchText){
+    var result = orders;
+    if (searchCategory === 'Client'){
+      result = orders.filter((order) => order.CustomerID.toLowerCase().includes(searchText.toLowerCase()));
+    }else if(searchCategory === 'Ville'){
+      result = orders.filter((order) => order.ShipCity.toLowerCase().includes(searchText.toLowerCase()));
+    }else if(searchCategory === 'Pays'){
+      result = orders.filter((order) => order.ShipCountry.toLowerCase().includes(searchText.toLowerCase()));
+    }
+    return result;
+  }
+  const foundOrders = fileterOrders(orders, searchText);
+  console.log(searchCategory);
   return (
     <>
       <div className="modal-content">
         <h2>Liste des commandes</h2>
-        <SearchInput value={searchText} onChange={(newText) => setSearchText(newText)} />
+        <SelectCategory listOfSearchable={listOfSearchable} onChange={newCat => setSearchCategory(newCat)} />
+        <SearchInput value={searchText} onChange={(newText) => setSearchText(newText)}/>
         <div className="orders">
           <table>
             <thead>
@@ -30,7 +46,7 @@ export default function AllOrder({ orders }) {
             </tr>
             </thead>
             <tbody>
-            {result.map((order) => (
+            {foundOrders.map((order) => (
                 <tr key={order._id}>
                   <td>{order.OrderID}</td>
                   <td>{order.CustomerID}</td>
