@@ -1,6 +1,9 @@
 "use client";
 import { useState } from 'react';
 
+import "./SearchInput";
+import SearchInput from "@/app/SearchInput";
+
 export default function AllOrder({ orders }) {
   const [searchText, setSearchText] = useState('');
 
@@ -9,8 +12,7 @@ export default function AllOrder({ orders }) {
     <>
       <div className="modal-content">
         <h2>Liste des commandes</h2>
-        <input type="search"  placeholder="Search" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
-        <button>Search</button>
+        <SearchInput value={searchText} onChange={(newText) => setSearchText(newText)} />
         <div className="orders">
           <table>
             <thead>
