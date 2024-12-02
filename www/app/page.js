@@ -11,23 +11,20 @@ export default async function Home() {
   const response = await fetch("http://localhost:3000/product/11");
   const product = await response.json();
 
-  // Fetch de tous les produits
+  // Fetch de tots les produits
   const resProducts = await fetch("http://localhost:3000/products");
   const products = await resProducts.json();
 
-  // Fetch de tous les commandes
+  // Fetch de toutes les commandes
   const resOrders = await fetch("http://localhost:3000/orders");
   const orders = await resOrders.json();
 
-  // Fetch de tous les fournisseurs
+  // Fetch de tout les fournisseurs
   const resSuppliers = await fetch("http://localhost:3000/suppliers");
   const suppliers = await resSuppliers.json();
 
   return (
     <div className={styles.page}>
-      <h1>Product</h1>
-      <DisplayData product={product} />
-
       <AllProducts products={products} />
       <AllOrders orders={orders} />
       <AllSuppliers suppliers={suppliers} />
