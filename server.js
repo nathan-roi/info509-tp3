@@ -6,21 +6,13 @@ const { MongoClient } = require('mongodb');
 const app = express();
 const port = 3000;
 
-// Importation de la librairie path
-const path = require('path');
-
 // Initialise Next.js à partir du répertoire "www"
 const nextApp = next({ dev: true, dir: './www' }); // dev: true pour le mode développement
 const handle = nextApp.getRequestHandler();
 
-// Route par défaut pour renvoyer index.html
-// app.get('/', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'www/', 'page.js'));
-// });
-
 // URL MongoDB et base de données
 const mongoUrl = 'mongodb://localhost:27017'; 
-const dbName = 'td5';
+const dbName = 'tp3';
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -378,7 +370,3 @@ nextApp.prepare().then(() => {
         console.log(`Server running on http://localhost:${port}`);
     });
 });
-
-// app.listen(port, () => {
-//     console.log(`API server is running on http://localhost:${port}`);
-// });
