@@ -1,8 +1,8 @@
 "use client";
 import { useState } from 'react';
 
-import SearchInput from "@/app/SearchInput";
-import SelectCategory from "@/app/SelectCategory";
+import SearchInput from "@/app/components/SearchInput";
+import SelectCategory from "@/app/components/SelectCategory";
 
 export default function AllOrder({ orders }) {
   const listOfSearchable = ["Client", "Ville", "Pays"];
