@@ -1,5 +1,6 @@
 "use client";
 import { useState } from 'react';
+import '@/app/css/listData.css';
 
 import SearchInput from "@/app/components/SearchInput";
 import SelectCategory from "@/app/components/SelectCategory";
@@ -25,10 +26,14 @@ export default function AllOrder({ orders }) {
   console.log(searchCategory);
   return (
     <>
-      <div className="modal-content">
-        <h2>Liste des commandes</h2>
-        <SelectCategory listOfSearchable={listOfSearchable} onChange={newCat => setSearchCategory(newCat)} />
-        <SearchInput value={searchText} onChange={(newText) => setSearchText(newText)}/>
+      <div className="list-data">
+        <div className="header-list">
+          <h2>Liste des commandes</h2>
+          <div className="search-bar">
+            <SelectCategory listOfSearchable={listOfSearchable} onChange={newCat => setSearchCategory(newCat)} />
+            <SearchInput value={searchText} onChange={(newText) => setSearchText(newText)}/>
+          </div>
+        </div>
         <div className="orders">
           <table>
             <thead>

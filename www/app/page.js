@@ -2,7 +2,7 @@
 import styles from "./page.module.css";
 import DisplayData from "./displayData.js";
 import AllProducts from "./allProducts";
-import AllOrders from "./allOrders"; 
+import AllOrders from "./components/allOrders";
 import AllSuppliers from "./allSuppliers";
 
 export default async function Home() {
