@@ -24,6 +24,7 @@ export default function AllOrder({ orders }) {
   }
   const foundOrders = fileterOrders(orders, searchText);
   console.log(searchCategory);
+
   return (
     <>
       <div className="list-data">

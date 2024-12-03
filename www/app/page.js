@@ -1,5 +1,9 @@
 // Données chargées côté serveur puis afficher côté client
 import styles from "./page.module.css";
+import "./css/scrollbar.css";
+import "./css/table.css";
+import "./css/button.css";
+import "./css/modal.css";
 import DisplayData from "./displayData.js";
 import AllProducts from "./allProducts";
 import AllOrders from "./components/allOrders";

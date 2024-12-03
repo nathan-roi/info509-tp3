@@ -16,7 +16,7 @@
 
 .header-list>h2{
     font-family: 'Poppins', sans-serif;
-    font-size: 24px;
+    font-size: 16px;
     font-weight: bold;
     color: #FAFDF9;
     padding: 10px;
@@ -26,12 +26,12 @@
 
 .search-bar{
     display: flex;
-    margin-left: 20px;
-
+    font-size: 16px;
+    margin-left: 14px;
 }
 
 .search-bar>input{
-    height: 38px;
+    height: 39px;
     background: white;
     color: var(--foreground);
     font-family: 'Poppins', sans-serif;
@@ -54,7 +54,7 @@
 
 .search-bar>select{
     background: #E7414D;
-    border: 1px solid #DFDFDF;
+    border: 1px solid #E7414D;
     border-bottom-left-radius: 8px;
     border-top-left-radius: 8px;
 }
