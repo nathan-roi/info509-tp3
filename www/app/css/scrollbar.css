@@ -14,6 +14,11 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
+    background: #477FA2;
+    cursor: grab;
+}
+
+::-webkit-scrollbar-thumb:active {
     background: #1E375A;
-    cursor:pointer;
+    cursor: grabbing;
 }
