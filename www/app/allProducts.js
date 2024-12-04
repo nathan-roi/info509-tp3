@@ -1,7 +1,6 @@
 "use client"; 
 
 import { useState } from "react";
-import SelectCategory from "@/app/components/SelectCategory";
 import SearchInput from "@/app/components/SearchInput";
 
 export default function AllProducts({ products }) {
@@ -16,9 +15,9 @@ export default function AllProducts({ products }) {
       <>
         <div className="list-data">
           <div className="header-list">
-            <h2>Liste des commandes</h2>
+            <h2>Liste des produits</h2>
             <div className="search-bar" id="search-bar-products">
-              <SearchInput value={searchText} onChange={(newText) => setSearchText(newText)}/>
+              <SearchInput placeholder={"Search : name of a product"} value={searchText} onChange={(newText) => setSearchText(newText)}/>
             </div>
           </div>
           <div className="list-table">
