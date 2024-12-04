@@ -46,6 +46,11 @@
     padding-left: 10px;
 }
 
+#search-bar-products>input{
+    border: 1px solid #DFDFDF;
+    border-radius: 8px;
+}
+
 .search-bar>input:focus{
     outline: 1px solid var(--foreground);
     /*border: none;*/

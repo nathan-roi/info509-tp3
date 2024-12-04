@@ -5,21 +5,21 @@ import SelectCategory from "@/app/components/SelectCategory";
 import SearchInput from "@/app/components/SearchInput";
 
 export default function AllProducts({ products }) {
-  const [showModal, setShowModal] = useState(false); 
+  const [searchText, setSearchText] = useState('');
 
-  const toggleModal = () => {
-    setShowModal(prevState => !prevState);
-  };
+  function fileterproducts(products, searchText){
+    return products.filter((product) => product.productName.toLowerCase().includes(searchText.toLowerCase()));
+  }
+  const foundproducts = fileterproducts(products, searchText);
 
   return (
       <>
         <div className="list-data">
           <div className="header-list">
             <h2>Liste des commandes</h2>
-            {/*<div className="search-bar">*/}
-            {/*  <SelectCategory listOfSearchable={listOfSearchable} onChange={newCat => setSearchCategory(newCat)}/>*/}
-            {/*  <SearchInput value={searchText} onChange={(newText) => setSearchText(newText)}/>*/}
-            {/*</div>*/}
+            <div className="search-bar" id="search-bar-products">
+              <SearchInput value={searchText} onChange={(newText) => setSearchText(newText)}/>
+            </div>
           </div>
           <div className="list-table">
             <table>
@@ -33,7 +33,7 @@ export default function AllProducts({ products }) {
               </tr>
               </thead>
               <tbody>
-              {products.map((product) => (
+              {foundproducts.map((product) => (
                   <tr key={product.productID}>
                     <td>{product.productID}</td>
                     <td>{product.productName}</td>
