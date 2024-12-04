@@ -1,10 +1,12 @@
 .list-data{
-    max-height: 400px;
+    display: flex;
+    flex-direction: column;
+    height: 400px;
     padding: 15px;
     background: #fff;
     border: 1px solid #DFDFDF;
     border-radius: 16px;
-    overflow-y: hidden;
+    overflow:hidden;
 }
 
 .header-list{
@@ -68,6 +70,7 @@
 }
 
 .orders{
-    height: 400px;
+    height: calc(400px - 84px); /*30 (paddings top et bottom + hateur la div titre + 15px pour avoir les 15px de padding*/
+    align-self: center;
     overflow-y: scroll;
 }

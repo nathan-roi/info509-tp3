@@ -1,6 +1,5 @@
 "use client";
 import { useState } from 'react';
-import '@/app/css/listData.css';
 
 import SearchInput from "@/app/components/SearchInput";
 import SelectCategory from "@/app/components/SelectCategory";

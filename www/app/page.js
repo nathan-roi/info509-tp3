@@ -4,6 +4,8 @@ import "./css/scrollbar.css";
 import "./css/table.css";
 import "./css/button.css";
 import "./css/modal.css";
+import './css/listData.css';
+
 import DisplayData from "./displayData.js";
 import AllProducts from "./allProducts";
 import AllOrders from "./components/allOrders";
