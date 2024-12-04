@@ -1,6 +1,7 @@
 .list-data{
     display: flex;
     flex-direction: column;
+    width: fit-content;
     height: 400px;
     padding: 15px;
     background: #fff;
