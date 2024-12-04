@@ -34,7 +34,7 @@ export default function AllOrder({ orders }) {
             <SearchInput value={searchText} onChange={(newText) => setSearchText(newText)}/>
           </div>
         </div>
-        <div className="orders">
+        <div className="list-table">
           <table>
             <thead>
             <tr>

@@ -69,7 +69,7 @@
     outline: none;
 }
 
-.orders{
+.list-table{
     height: calc(400px - 84px); /*30 (paddings top et bottom + hateur la div titre + 15px pour avoir les 15px de padding*/
     align-self: center;
     overflow-y: scroll;
