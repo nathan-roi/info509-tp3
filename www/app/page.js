@@ -10,6 +10,8 @@ import DisplayData from "./displayData.js";
 import AllProducts from "./allProducts";
 import AllOrders from "./components/allOrders";
 import AllSuppliers from "./allSuppliers";
+import ProductsChart from "./components/ProductsChart";
+
 
 export default async function Home() {
   {/* <img width="250px" src="node-mongo.png"> */}
@@ -34,7 +36,7 @@ export default async function Home() {
       <AllProducts products={products} />
       <AllOrders orders={orders} />
       <AllSuppliers suppliers={suppliers} />
-
+      {/* <ProductsChart /> */}
     </div>
   );
 }
