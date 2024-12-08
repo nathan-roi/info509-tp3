@@ -1,6 +1,12 @@
 #list-products { grid-area: 1 / 1 / 2 / 2; }
 #list-orders { grid-area: 2 / 1 / 3 / 2; }
-#total-price { grid-area: 1 / 2 / 2 / 3; }
+#total-price {
+    grid-area: 1 / 2 / 2 / 3;
+    height: fit-content;
+    align-self: center;
+    justify-self: center;
+
+}
 
 .list-data{
     display: flex;
