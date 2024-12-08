@@ -24,8 +24,7 @@ export default function AllOrder({ orders }) {
   const foundOrders = fileterOrders(orders, searchText);
 
   return (
-    <>
-      <div className="list-data">
+      <div id="list-orders" className="list-data">
         <div className="header-list">
           <h2>Liste des commandes</h2>
           <div className="search-bar">
@@ -68,6 +67,5 @@ export default function AllOrder({ orders }) {
           </table>
         </div>
       </div>
-    </>
   );
 }

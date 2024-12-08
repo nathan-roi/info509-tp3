@@ -21,8 +21,8 @@ export default function AllProducts({ products }) {
 
 
   return (
-<>
-      <div className="list-data">
+
+      <div id="list-products" className="list-data">
         <div className="header-list">
           <h2>Liste des produits</h2>
           <div className="search-bar" id="search-bar-products">
@@ -59,6 +59,5 @@ export default function AllProducts({ products }) {
           </div>
         )}
       </div>
-    </>
   );
 }

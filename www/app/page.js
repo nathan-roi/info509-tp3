@@ -39,9 +39,9 @@ export default async function Home() {
   return (
     <div className={styles.page}>
         <AllProducts products={products} />
-        <AllOrders orders={orders} />
-        <AllSuppliers suppliers={suppliers} />
         <TotalPrice totalPrice={totalPrice} />
+        <AllOrders orders={orders} />
+        {/*<AllSuppliers suppliers={suppliers} />*/}
       {/* <ProductsChart /> */}
     </div>
   );
