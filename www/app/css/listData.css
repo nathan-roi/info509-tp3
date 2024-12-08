@@ -3,6 +3,7 @@
 #total-price {
     grid-area: 1 / 2 / 2 / 3;
     height: fit-content;
+    width: max-content;
     align-self: center;
     justify-self: center;
 
