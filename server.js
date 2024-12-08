@@ -220,7 +220,7 @@ app.get('/orders', async (req, res) => {
 
 // Route pour rechercher les commandes d'un client
 app.get('/customer_order/:CustomerID', async (req, res) => {
-    const CustomerID = req.params.CustomerID; 
+    const CustomerID = req.params.CustomerID;
     if (typeof CustomerID !== 'string') {
         return res.status(400).json({ error: 'Invalid costumerID. Must be a string' });
     }
@@ -245,7 +245,59 @@ app.get('/customer_order/:CustomerID', async (req, res) => {
         } else {
             res.status(404).json({ error: 'order not found' });
         }
-        
+
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+        if (client) {
+            await client.close();
+        }
+    }
+});
+
+// Prix de toutes les commandes
+app.get('/total_orders_price', async (req, res) => {
+
+    let client;
+    try {
+        client = new MongoClient(mongoUrl);
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const db = client.db(dbName);
+        const orderCollection = db.collection('orders');
+
+        // Recherche dans MongoDB
+        const pipeline = [
+            {
+                // Calcul du prix total pour chaque produit dans une commande
+                $project: {
+                    totalPrice: {
+                        $multiply: [
+                            "$UnitPrice",
+                            "$Quantity",
+                            { $subtract: [1, "$Discount"] } // Applique le discount
+                        ]
+                    }
+                }
+            },
+            {
+                // Somme de tous les prix calculés
+                $group: {
+                    _id: "orders",
+                    totalPrice: { $sum: "$totalPrice" }
+                }
+            }
+        ];
+        const aggregationResult = await orderCollection.aggregate(pipeline).toArray();
+
+        if (aggregationResult) {
+            res.json(aggregationResult);
+        } else {
+            res.status(404).json({ error: 'order not found' });
+        }
+
     } catch (err) {
         console.error('Error:', err);
         res.status(500).json({ error: 'Internal Server Error' });
