@@ -10,16 +10,16 @@ import DisplayData from "./displayData.js";
 import AllProducts from "./allProducts";
 import AllOrders from "./components/allOrders";
 import AllSuppliers from "./allSuppliers";
+import TotalPrice from "./components/TotalPrice";
 import ProductsChart from "./components/ProductsChart";
 
 
 export default async function Home() {
-  {/* <img width="250px" src="node-mongo.png"> */}
   // Fetch d'un produit spécifique
   const response = await fetch("http://localhost:3000/product/11");
   const product = await response.json();
 
-  // Fetch de tots les produits
+  // Fetch de tous les produits
   const resProducts = await fetch("http://localhost:3000/products");
   const products = await resProducts.json();
 
@@ -27,15 +27,21 @@ export default async function Home() {
   const resOrders = await fetch("http://localhost:3000/orders");
   const orders = await resOrders.json();
 
-  // Fetch de tout les fournisseurs
+  // Fetch le prix total de toutes les commandes
+    const resTotalPriceOrders = await (await fetch("http://localhost:3000/total_orders_price")).json();
+    const totalPrice = resTotalPriceOrders[0].totalPrice;
+
+
+  // Fetch de tous les fournisseurs
   const resSuppliers = await fetch("http://localhost:3000/suppliers");
   const suppliers = await resSuppliers.json();
 
   return (
     <div className={styles.page}>
-      <AllProducts products={products} />
-      <AllOrders orders={orders} />
-      <AllSuppliers suppliers={suppliers} />
+        <AllProducts products={products} />
+        <AllOrders orders={orders} />
+        <AllSuppliers suppliers={suppliers} />
+        <TotalPrice totalPrice={totalPrice} />
       {/* <ProductsChart /> */}
     </div>
   );
