@@ -33,6 +33,7 @@ export default async function Home() {
     const resCustomersPriceOrders = await (await fetch("http://localhost:3000/total_customers")).json();
     const totalCutstomers = resCustomersPriceOrders[0].totalCutstomers;
 
+    console.log(totalCutstomers)
 
   // Fetch de tous les fournisseurs
   const resSuppliers = await fetch("http://localhost:3000/suppliers");
