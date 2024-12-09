@@ -12,7 +12,8 @@ import AllOrders from "./components/allOrders";
 import AllSuppliers from "./allSuppliers";
 import TotalPrice from "./components/TotalPrice";
 import ProductsChart from "./components/ProductsChart";
-
+import OrderTimeChart from "./components/OrderTimeChart";
+import TotalCustomers from "./components/TotalCustomers";
 
 export default async function Home() {
   // Fetch d'un produit spécifique
@@ -28,8 +29,12 @@ export default async function Home() {
   const orders = await resOrders.json();
 
   // Fetch le prix total de toutes les commandes
-    const resTotalPriceOrders = await (await fetch("http://localhost:3000/total_orders_price")).json();
-    const totalPrice = resTotalPriceOrders[0].totalPrice;
+  const resTotalPriceOrders = await (await fetch("http://localhost:3000/total_orders_price")).json();
+  const totalPrice = resTotalPriceOrders[0].totalPrice;
+
+    // Fetch le prix total de toutes les commandes
+    const resCustomersPriceOrders = await (await fetch("http://localhost:3000/total_customers")).json();
+    const totalCutstomers = resCustomersPriceOrders[0].totalCutstomers;
 
 
   // Fetch de tous les fournisseurs
@@ -39,10 +44,12 @@ export default async function Home() {
   return (
     <div className={styles.page}>
         <AllProducts products={products} />
-        <TotalPrice totalPrice={totalPrice} />
-        <AllOrders orders={orders} />
-        {/*<AllSuppliers suppliers={suppliers} />*/}
-      {/* <ProductsChart /> */}
+        <div>
+          <TotalPrice totalPrice={totalPrice} />
+          <TotalCustomers totalCutstomers={totalCutstomers} />
+        </div>
+        <AllOrders orders={orders}/>
+        <OrderTimeChart />
     </div>
   );
 }
