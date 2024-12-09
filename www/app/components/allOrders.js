@@ -38,9 +38,7 @@ export default function AllOrder({ orders }) {
             <tr>
               <th>ID</th>
               <th>Client</th>
-              <th>Ville</th>
-              <th>Code postal</th>
-              <th>Pays</th>
+              <th>Adresse</th>
               <th>Date de commande</th>
               <th>Date d'expédition</th>
               <th>Quantité</th>
@@ -53,9 +51,7 @@ export default function AllOrder({ orders }) {
                 <tr key={order._id}>
                   <td>{order.OrderID}</td>
                   <td>{order.CustomerID}</td>
-                  <td>{order.ShipCity}</td>
-                  <td>{order.ShipPostalCode}</td>
-                  <td>{order.ShipCountry}</td>
+                  <td>{order.ShipCity} {order.ShipPostalCode}, {order.ShipCountry}</td>
                   <td>{order.OrderDate}</td>
                   <td>{order.ShippedDate}</td>
                   <td>{order.Quantity}</td>

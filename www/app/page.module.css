@@ -1,7 +1,18 @@
+/*.page {*/
+/*  display: grid;*/
+/*  grid-template-columns: repeat(3, 1fr);*/
+/*  grid-template-rows: repeat(2, 1fr);*/
+/*  grid-column-gap: 15px;*/
+/*  grid-row-gap: 15px;*/
+/*}*/
 .page {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  grid-column-gap: 15px;
-  grid-row-gap: 15px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.containerList{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
