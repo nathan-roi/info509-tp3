@@ -308,6 +308,56 @@ app.get('/total_orders_price', async (req, res) => {
     }
 });
 
+// Prix de toutes les commandes
+app.get('/orders_intime', async (req, res) => {
+
+    let client;
+    try {
+        client = new MongoClient(mongoUrl);
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const db = client.db(dbName);
+        const orderCollection = db.collection('orders');
+
+        // Recherche dans MongoDB
+        const pipeline = [
+            {
+                $group: {
+                  _id: {
+                    OrderDate: "$OrderDate",
+                  },
+                  totalOrders: { $sum: 1 }
+                }
+              },
+              {
+                $project: {
+                  _id: 0,
+                  OrderDate: "$_id.OrderDate",
+                  TotalOrders: "$totalOrders"
+                }
+              },
+              { $sort: { OrderDate: 1 } }
+        ];          
+
+        const aggregationResult = await orderCollection.aggregate(pipeline).toArray();
+
+        if (aggregationResult) {
+            res.json(aggregationResult);
+        } else {
+            res.status(404).json({ error: 'order not found' });
+        }
+
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+        if (client) {
+            await client.close();
+        }
+    }
+});
+
 // ############ Fournisseurs ############
 
 // Route pour rechercher un fournisseur par ID
