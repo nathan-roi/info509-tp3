@@ -1,7 +1,4 @@
 # INFO509-TP3 - Dashboard
-
-Nous vous rendons ce fichier md, car le dossier des fichiers sources fais 300Mo et moodle accepte 100Mo maximum (NextJs n’était peut-être pas l’idée du siècle pour un si petit projet 😅). On vous laisse donc cloner le projet via github !
-
 ---
 
 ## Pré-requis :
