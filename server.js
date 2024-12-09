@@ -54,7 +54,7 @@ app.get('/customer/:CustomerID', async (req, res) => {
     }
 });
 
-// Route pour afficher tout les clients
+// Route pour afficher tous les clients
 app.get('/customers', async (req, res) => {
     
     let client;
@@ -88,7 +88,7 @@ app.get('/customers', async (req, res) => {
 
 // ############ Produits ############
 
-// Route pour afficher tout les produits
+// Route pour afficher tous les produits
 app.get('/products', async (req, res) => {
     
     let client;
@@ -139,6 +139,52 @@ app.get('/product/:productID', async (req, res) => {
         const product = await collection.findOne({ productID }); 
         if (product) {
             res.json(product);
+        } else {
+            res.status(404).json({ error: 'Product not found' });
+        }
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+        if (client) {
+            await client.close();
+        }
+    }
+});
+
+// Afficher les 5 produits les plus vendus
+app.get('/top5_best_products', async (req, res) => {
+
+    let client;
+    try {
+        client = new MongoClient(mongoUrl);
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const db = client.db(dbName);
+        const collection = db.collection('order_orderdetail');
+
+        // Recherche dans MongoDB
+        const pipeline = [
+            {$unwind:"$value"},
+            {$group:{_id:"$value.ProductID", count:{$sum:1}}},
+            {$sort:{count:-1}},
+            {$limit : 5},
+            {$lookup:{
+                from:"products",
+                    localField:"_id",
+                    foreignField:"productID",
+                    as:"product"
+                }
+            },
+            {$unwind:"$product"},
+            {$project:{_id:"$product.productName", nbProducts:"$count"}},
+        ];
+
+        const aggregationResult = await collection.aggregate(pipeline).toArray();
+
+        if (aggregationResult) {
+            res.json(aggregationResult);
         } else {
             res.status(404).json({ error: 'Product not found' });
         }
@@ -353,7 +399,7 @@ app.get('/total_customers', async (req, res) => {
         
 
 
-// Prix de toutes les commandes
+// Nombre de commandes pour chaque jour
 app.get('/orders_intime', async (req, res) => {
 
     let client;
