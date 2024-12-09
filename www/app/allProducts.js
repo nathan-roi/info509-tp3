@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import SearchInput from "@/app/components/SearchInput";
-import ProductsChart from "./components/ProductsChart";
+import ProductsChart from "@/app/components/ProductsChart";
 
 
 export default function AllProducts({ products }) {
@@ -21,7 +21,6 @@ export default function AllProducts({ products }) {
 
 
   return (
-
       <div id="list-products" className="list-data">
         <div className="header-list">
           <h2>Liste des produits</h2>

@@ -6,13 +6,9 @@ import "./css/button.css";
 import "./css/modal.css";
 import './css/listData.css';
 
-import DisplayData from "./displayData.js";
 import AllProducts from "./allProducts";
 import AllOrders from "./components/allOrders";
-import AllSuppliers from "./allSuppliers";
 import TotalPrice from "./components/TotalPrice";
-import ProductsChart from "./components/ProductsChart";
-import OrderTimeChart from "./components/OrderTimeChart";
 import TotalCustomers from "./components/TotalCustomers";
 
 export default async function Home() {
@@ -36,6 +32,7 @@ export default async function Home() {
     const resCustomersPriceOrders = await (await fetch("http://localhost:3000/total_customers")).json();
     const totalCutstomers = resCustomersPriceOrders[0].totalCutstomers;
 
+    console.log(totalCutstomers)
 
   // Fetch de tous les fournisseurs
   const resSuppliers = await fetch("http://localhost:3000/suppliers");
@@ -43,13 +40,14 @@ export default async function Home() {
 
   return (
     <div className={styles.page}>
-        <AllProducts products={products} />
+        <div className={styles.containerList}>
+            <AllOrders orders={orders}/>
+            <AllProducts products={products} />
+        </div>
         <div>
           <TotalPrice totalPrice={totalPrice} />
           <TotalCustomers totalCutstomers={totalCutstomers} />
         </div>
-        <AllOrders orders={orders}/>
-        <OrderTimeChart />
     </div>
   );
 }
