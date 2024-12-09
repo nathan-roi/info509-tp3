@@ -16,3 +16,20 @@
   flex-direction: row;
   flex-wrap: nowrap;
 }
+
+.containerStatnList{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}
+
+.containerStats{
+  display: flex;
+  flex-direction: column;
+}
+
+.containerPie{
+  display: flex;
+  flex-direction: row;
+}

@@ -36,7 +36,7 @@ export default function FiveWorstProducts () {
                 setChartData({
                     labels: labels,
                     datasets: [{
-                        label: 'Top 5 worst products',
+                        label: 'Nombre de produits',
                         data: dataValues,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.7)',
@@ -79,27 +79,30 @@ export default function FiveWorstProducts () {
     }
 
     return (
-        <div className="list-data">
+        <div className="list-data chart">
             <div className="header-list">
                 <h2>Les 5 produits les moins commandés actuellement</h2>
             </div>
-            {chartData && (
-                <Pie
-                    data={chartData}
-                    options={{
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: "bottom",
+            <div className="pieChart">
+                {chartData && (
+                    <Pie
+                        data={chartData}
+                        options={{
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: "bottom",
+                                },
+                                tooltip: {
+                                    enabled: true,
+                                },
                             },
-                            tooltip: {
-                                enabled: true,
-                            },
-                        },
-                    }}
-                />
-            )}
+                        }}
+                    />
+                )}
+            </div>
+
         </div>
     )
 }

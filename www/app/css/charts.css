@@ -1,5 +1,10 @@
 .orderTimeChart{
     position: relative;
     width: initial;
-    height: 300px;
+    height: 90%;
+}
+
+.pieChart{
+    position: relative;
+    height: 100%;
 }

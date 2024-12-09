@@ -46,11 +46,16 @@ export default async function Home() {
             <AllOrders orders={orders}/>
             <AllProducts products={products} />
         </div>
-        <div>
-            <TotalPrice totalPrice={totalPrice} />
-            <TotalCustomers totalCutstomers={totalCutstomers} />
-            <FiveBestProducts />
-            <FiveWorstProducts />
+        <div className={styles.containerStatnList}>
+            <div className={styles.containerStat}>
+                <TotalPrice totalPrice={totalPrice} />
+                <TotalCustomers totalCutstomers={totalCutstomers} />
+            </div>
+
+            <div className={styles.containerPie}>
+                <FiveBestProducts />
+                <FiveWorstProducts />
+            </div>
         </div>
     </div>
   );
