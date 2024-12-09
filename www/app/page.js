@@ -10,6 +10,8 @@ import AllProducts from "./allProducts";
 import AllOrders from "./components/allOrders";
 import TotalPrice from "./components/TotalPrice";
 import TotalCustomers from "./components/TotalCustomers";
+import FiveBestProducts from "./components/FiveBestProducts";
+import FiveWorstProducts from "./components/FiveWorstProducts";
 
 export default async function Home() {
   // Fetch d'un produit spécifique
@@ -45,8 +47,10 @@ export default async function Home() {
             <AllProducts products={products} />
         </div>
         <div>
-          <TotalPrice totalPrice={totalPrice} />
-          <TotalCustomers totalCutstomers={totalCutstomers} />
+            <TotalPrice totalPrice={totalPrice} />
+            <TotalCustomers totalCutstomers={totalCutstomers} />
+            <FiveBestProducts />
+            <FiveWorstProducts />
         </div>
     </div>
   );

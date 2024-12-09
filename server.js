@@ -198,6 +198,52 @@ app.get('/top5_best_products', async (req, res) => {
     }
 });
 
+// Afficher les 5 produits les moins vendus
+app.get('/top5_worst_products', async (req, res) => {
+
+    let client;
+    try {
+        client = new MongoClient(mongoUrl);
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const db = client.db(dbName);
+        const collection = db.collection('order_orderdetail');
+
+        // Recherche dans MongoDB
+        const pipeline = [
+            {$unwind:"$value"},
+            {$group:{_id:"$value.ProductID", count:{$sum:1}}},
+            {$sort:{count:1}},
+            {$limit : 5},
+            {$lookup:{
+                    from:"products",
+                    localField:"_id",
+                    foreignField:"productID",
+                    as:"product"
+                }
+            },
+            {$unwind:"$product"},
+            {$project:{_id:"$product.productName", nbProducts:"$count"}},
+        ];
+
+        const aggregationResult = await collection.aggregate(pipeline).toArray();
+
+        if (aggregationResult) {
+            res.json(aggregationResult);
+        } else {
+            res.status(404).json({ error: 'Product not found' });
+        }
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+        if (client) {
+            await client.close();
+        }
+    }
+});
+
 // ############ Commandes ############
 
 // Route pour rechercher une commande par ID
