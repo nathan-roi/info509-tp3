@@ -595,6 +595,60 @@ app.get('/supplier_product/:SupplierID', async (req, res) => {
     }
 });
 
+// Route pour trouver un produit depuis un orders 
+app.get('/order_product/:OrderID', async (req, res) => {
+    const OrderID = parseInt(req.params.OrderID, 10);
+
+    if (isNaN(OrderID)) {
+        return res.status(400).json({ error: 'Invalid OrderID. Must be an integer.' });
+    }
+
+    let client;
+    try {
+        client = new MongoClient(mongoUrl);
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        const db = client.db(dbName);
+        const ordersCollection = db.collection('orders');
+
+        // Pipeline d'agrégation
+        const pipeline = [
+            { $match: { OrderID: OrderID } },
+            {
+                $lookup: {
+                    from: "products",
+                    localField: "ProductID",
+                    foreignField: "productID",
+                    as: "ProductDetails"
+                }
+            },
+            { $unwind: "$ProductDetails" },
+            { $replaceRoot: { newRoot: "$ProductDetails" } } // Remplace le document par ProductDetails
+        ];
+
+        const aggregationResult = await ordersCollection.aggregate(pipeline).toArray();
+
+        if (aggregationResult.length > 0) {
+            res.json(aggregationResult[0]); // Renvoie uniquement le produit
+        } else {
+            res.status(404).json({ error: 'No product found for the given OrderID.' });
+        }
+    } catch (err) {
+        console.error('Error fetching order product data:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    } finally {
+        if (client) {
+            await client.close();
+        }
+    }
+});
+
+
+
+
+
+
 // ############ SERVEUR ############
 
 // Lancement du serveur
