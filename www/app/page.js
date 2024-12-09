@@ -23,8 +23,8 @@ export default async function Home() {
   const products = await resProducts.json();
 
   // Fetch de toutes les commandes
-  const resOrders = await fetch("http://localhost:3000/orders");
-  const orders = await resOrders.json();
+  const resOrders = await (await fetch("http://localhost:3000/orders")).json();
+  const orders = resOrders;
 
   // Fetch le prix total de toutes les commandes
   const resTotalPriceOrders = await (await fetch("http://localhost:3000/total_orders_price")).json();
@@ -33,8 +33,6 @@ export default async function Home() {
     // Fetch le prix total de toutes les commandes
     const resCustomersPriceOrders = await (await fetch("http://localhost:3000/total_customers")).json();
     const totalCutstomers = resCustomersPriceOrders[0].totalCutstomers;
-
-    console.log(totalCutstomers)
 
   // Fetch de tous les fournisseurs
   const resSuppliers = await fetch("http://localhost:3000/suppliers");

@@ -281,7 +281,7 @@ app.get('/order/:OrderID', async (req, res) => {
 
 // Route pour afficher toutes les commandes
 app.get('/orders', async (req, res) => {
-    
+
     let client;
     try {
         client = new MongoClient(mongoUrl);
@@ -292,14 +292,31 @@ app.get('/orders', async (req, res) => {
         const collection = db.collection('orders');
 
         // Recherche dans MongoDB
-        const orders = await collection.find({}).toArray();
+        const pipeline = [];
+        pipeline.push(
+            {$group:{
+                    _id:"$OrderID",
+                    value:{$push:{
+                            CustomerID:"$CustomerID",
+                            ShipCity:"$ShipCity",
+                            ShipPostalCode:"$ShipPostalCode",
+                            ShipCountry:"$ShipCountry",
+                            OrderDate:"$OrderDate",
+                            ShippedDate:"$ShippedDate",
+                            Quantity:"$Quantity",
+                            Freight:"$Freight",
+                            UnitPrice:"$UnitPrice",
+                        }}}
+            })
 
-        if (orders) {
-            res.json(orders);
+        const resAggreg = await collection.aggregate(pipeline).toArray();
+
+        if (resAggreg) {
+            res.json(resAggreg);
         } else {
             res.status(404).json({ error: 'no orders here' });
         }
-        
+
     } catch (err) {
         console.error('Error:', err);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -402,10 +419,10 @@ app.get('/total_orders_price', async (req, res) => {
 
 
 // Nombre total de clients
-app.get('/total_customers', async (req, res) => {  
-    
+app.get('/total_customers', async (req, res) => {
+
     let client;
-    
+
     try {
         client = new MongoClient(mongoUrl);
         await client.connect();
@@ -442,7 +459,7 @@ app.get('/total_customers', async (req, res) => {
         }
     }
 });
-        
+
 
 
 // Nombre de commandes pour chaque jour

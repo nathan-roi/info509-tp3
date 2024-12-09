@@ -41,21 +41,20 @@ export default function AllOrder({ orders }) {
     var result = orders;
     if (searchCategory === "Client") {
       result = orders.filter((order) =>
-        order.CustomerID.toLowerCase().includes(searchText.toLowerCase())
+          order.value[0].CustomerID.toLowerCase().includes(searchText.toLowerCase())
       );
     } else if (searchCategory === "Ville") {
       result = orders.filter((order) =>
-        order.ShipCity.toLowerCase().includes(searchText.toLowerCase())
+        order.value[0].ShipCity.toLowerCase().includes(searchText.toLowerCase())
       );
     } else if (searchCategory === "Pays") {
       result = orders.filter((order) =>
-        order.ShipCountry.toLowerCase().includes(searchText.toLowerCase())
+        order.value[0].ShipCountry.toLowerCase().includes(searchText.toLowerCase())
       );
     }
     return result;
   }
   const foundOrders = fileterOrders(orders, searchText);
-
   return (
     <div id="list-orders" className="list-data">
       <div className="header-list">
@@ -79,7 +78,7 @@ export default function AllOrder({ orders }) {
           <table>
             <thead>
               <tr>
-                <th>Info Productt</th>
+                <th>Liste des produits</th>
                 <th>ID</th>
                 <th>Client</th>
                 <th>Adresse</th>
@@ -91,28 +90,28 @@ export default function AllOrder({ orders }) {
               </tr>
             </thead>
             <tbody>
-              {foundOrders.map((order) => (
-                <tr key={order._id}>
+              {foundOrders.map((order,index) => (
+                <tr key={index}>
                   <td>
                     <button
                       onClick={() => {
                         setSelectedOrder(order);
-                        fetchProduct(order.OrderID);
+                        fetchProduct(order._id);
                       }}
                     >
                       +
                     </button>
                   </td>
-                  <td>{order.OrderID}</td>
-                  <td>{order.CustomerID}</td>
+                  <td>{order._id}</td>
+                  <td>{order.value[0].CustomerID}</td>
                   <td>
-                    {order.ShipCity} {order.ShipPostalCode}, {order.ShipCountry}
+                    {order.value[0].ShipCity} {order.value[0].ShipPostalCode}, {order.value[0].ShipCountry}
                   </td>
-                  <td>{order.OrderDate}</td>
-                  <td>{order.ShippedDate}</td>
-                  <td>{order.Quantity}</td>
-                  <td>{order.Freight}</td>
-                  <td>{order.UnitPrice}</td>
+                  <td>{order.value[0].OrderDate}</td>
+                  <td>{order.value[0].ShippedDate}</td>
+                  <td>{order.value[0].Quantity}</td>
+                  <td>{order.value[0].Freight}</td>
+                  <td>{order.value[0].UnitPrice}</td>
                 </tr>
               ))}
             </tbody>
@@ -142,15 +141,15 @@ export default function AllOrder({ orders }) {
           >
             X
           </button>
-          <h3>Details du produit commander</h3>
+          <h3>Liste des produits</h3>
           {isLoading ? (
             <p>Chargement des détails...</p>
           ) : Product ? (
             <div>
-              <p><strong>Nom du Product:</strong> {Product.productName}</p>
-              <p><strong>Prix unitaire:</strong> {Product.unitPrice}</p>
-              <p><strong>Quantité en stock:</strong> {Product.unitsInStock}</p>
-              <p><strong>Quantié par unité:</strong> {Product.quantityPerUnit}</p>
+              <p><strong>Nom du produit :</strong> {Product.productName}</p>
+              <p><strong>Prix unitaire :</strong> {Product.unitPrice}</p>
+              <p><strong>Quantité en stock :</strong> {Product.unitsInStock}</p>
+              <p><strong>Quantié par unité :</strong> {Product.quantityPerUnit}</p>
             </div>
           ) : (
             <p>Aucun détail trouvé pour cette commande.</p>
