@@ -9,7 +9,6 @@ import './css/listData.css';
 import AllProducts from "./allProducts";
 import AllOrders from "./components/allOrders";
 import TotalPrice from "./components/TotalPrice";
-import OrderTimeChart from "./components/OrderTimeChart";
 import TotalCustomers from "./components/TotalCustomers";
 
 export default async function Home() {
@@ -49,7 +48,6 @@ export default async function Home() {
           <TotalPrice totalPrice={totalPrice} />
           <TotalCustomers totalCutstomers={totalCutstomers} />
         </div>
-        <OrderTimeChart />
     </div>
   );
 }

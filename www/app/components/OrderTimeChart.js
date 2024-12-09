@@ -14,6 +14,8 @@ import {
   Legend,
 } from "chart.js";
 
+import "@/app/css/charts.css"
+
 // Register necessary Chart.js components
 ChartJS.register(
   CategoryScale,
@@ -43,7 +45,7 @@ const OrdersLineChart = () => {
           labels,
           datasets: [
             {
-              label: "Total Commandes",
+              label: "Nombre de commandes par jour",
               data: totalOrders,
               borderColor: "#FF6384",
               backgroundColor: "rgba(255, 99, 132, 0.2)",
@@ -68,12 +70,13 @@ const OrdersLineChart = () => {
   }
 
   return (
-    <div>
+    <div className="orderTimeChart">
       {chartData && (
         <Line
           data={chartData}
           options={{
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
               legend: {
                 position: "bottom",
