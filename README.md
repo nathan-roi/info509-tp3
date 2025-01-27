@@ -30,6 +30,6 @@ node server.js
 <br/>
 <br/>
 
-**Auteurs :**
-Nathan Roi
+**Auteurs :**  
+Nathan Roi  
 Timéo Chatelain
