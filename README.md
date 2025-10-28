@@ -3,9 +3,8 @@
 
 ## Pré-requis :
 
-Docker avec mongodb et une base mongodb nommée `tp3`
-
-Avant le démarrage de l’application, mongodb et docker doivent tourner
+- Docker
+- Node.js
 
 ## Récupérer les fichiers :
 
@@ -13,21 +12,39 @@ Avant le démarrage de l’application, mongodb et docker doivent tourner
 git clone https://github.com/nathan-roi/info509-tp3.git
 ```
 
-## Pour démarrer l’app :
+## Premier démarrage :
 
-**Installer les dépendances**
-
+Dans le dossier data lancer le script :
 ```bash
-npm install
+./init_mongdb.sh 
+```
+Ce script permet de créer une image docker mongodb et d'importer dans mongodb les données (commandes, clients etc...)
+
+## Lancer l'app :
+
+À la racine du projet :
+```bash
+./start_project.sh
 ```
 
-**Lancer l’app**
+## Stopper l'app :
 
+À la racine du projet :
 ```bash
-node server.js
+./stop_project.sh
 ```
 
-**Le dashboard affiché**
+## Nettoyer les instances crées :
+
+À la racine du projet :
+```bash
+./clean_project.sh
+```
+Après execution de ce script l'image docker est supprimée, il sera nécessaire par la suite de réexecuter le script ```init_mongodb.sh``` avant de lancer l'app.
+
+<br/>
+
+## Le dashboard affiché
 <img width="1714" height="876" alt="image" src="https://github.com/user-attachments/assets/07fb5615-c8b6-4bee-9fc6-1fe228f04e79" />
 
 
