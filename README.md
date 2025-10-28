@@ -27,6 +27,10 @@ npm install
 node server.js
 ```
 
+**Le dashboard affiché**
+<img width="1714" height="876" alt="image" src="https://github.com/user-attachments/assets/07fb5615-c8b6-4bee-9fc6-1fe228f04e79" />
+
+
 <br/>
 <br/>
 
